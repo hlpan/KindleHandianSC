@@ -12,7 +12,7 @@
 
 ## 版本
 
-KindleHanDianSC-1.prc 3.44M, 只有“基本解释”, 一共有： 21401 个字。
+KindleHanDianSC-1.prc 3.44M, 只有“基本解释”, 一共有： 21401 个字。(推荐)
 
 KindleHanDianSC-12.prc 10.6M, 包含“基本解释”和“详细解释”, 一共有： 21403 个字。
 
