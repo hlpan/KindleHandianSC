@@ -11,11 +11,13 @@
 文件非常小
 
 ## 版本
-KindleHanDianSC-1.mobi 只有“基本解释”, 一共有： 21401 个字。
 
-KindleHanDianSC-12.mobi 包含“基本解释”和“详细解释”, 一共有： 21403 个字。
+KindleHanDianSC-1.prc 3.44M, 只有“基本解释”, 一共有： 21401 个字。
 
-KindleHanDianSC-123.mobi 包含“基本解释”，“详细解释”，和“康熙字典”,一共有： 26659 个字。理论上凡是Kindle能显示的字体，都能查到。
+KindleHanDianSC-12.prc 10.6M, 包含“基本解释”和“详细解释”, 一共有： 21403 个字。
+
+KindleHanDianSC-123.prc 37.4M, 包含“基本解释”，“详细解释”，和“康熙字典”,一共有： 26659 个字。理论上凡是Kindle能显示的字体，都能查到。
+
 
 ## 其它
 感谢zdict.net
