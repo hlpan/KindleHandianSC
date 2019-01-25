@@ -326,7 +326,8 @@ def parse_print_tab_jiben(dict_root, homo_no, word,content):
     return True
 
 def parse_print_tab_xiangxi(dict_root, homo_no, word, content):
-    
+    if word=='氍':
+        print(word)
     parsed_word={}
     if not (len(content) and parse_word_xiangxi(word, content, parsed_word)):
         return False
@@ -337,6 +338,7 @@ def parse_print_tab_xiangxi(dict_root, homo_no, word, content):
     #对“详细解释”页面的每一类按'详细字义'，'基本词义'，'词性变化'的顺序显示
 
     cat_list=['详细字义','基本词义','词性变化']
+    is_empty=True
     for cat in cat_list:
         try:
             parsed_cat=parsed_word[cat]
@@ -347,6 +349,7 @@ def parse_print_tab_xiangxi(dict_root, homo_no, word, content):
             for zixing in parsed_ziyi:
                 if 0==len(zixing['jieshi']):
                     continue
+                is_empty=False
                 #首先展示单词
                 b=html.Element('b')
                 entry.append(b)
@@ -374,6 +377,8 @@ def parse_print_tab_xiangxi(dict_root, homo_no, word, content):
                         example=label+'. '+example
                         make_sub_elem(sense, 'description',{}, _text=example)
                     category.append(html.Element('br'))
+    if is_empty:
+        return False
     make_sub_elem(dict_root,'hr')
     return True
 
@@ -494,7 +499,7 @@ for word,content_map in word_conten_map.items():
     #        homo_no+=1
     #except KeyError:
     #    pass
-    #“详细解释”
+    #康熙字典
     #try:
     #    content_xiangxi=content_map['康熙字典']
     #    if parse_print_tab_kangxi(dict_root, homo_no, word, content_xiangxi):
