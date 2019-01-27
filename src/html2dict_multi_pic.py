@@ -14,7 +14,7 @@ kindle_charset=font_charset_map['kindle_build_in/STSongMedium.ttf']
 word_without_content=[]
 non_standard_html=[]
 
-
+debug_file=open('debug.txt','wb')
 def get_content(file_name):
     #返回dict,key:word,value:content_map
     #content_map也是dict,key:基本解释or详细解释,value:字符串
@@ -91,7 +91,18 @@ def parse_form(elem_list, start, end, word):
     offset=0
     text=get_pure_string(elem_list[start+1]).strip()
     if len(elem_list[start+1].find_class('dicpy')):
-        zi_py+=get_pure_string(elem_list[start+1])
+        # 字的一些其它写法,用两个空格隔开
+        other_typing=get_pure_string(elem_list[start+1])
+        if len(other_typing) <= 13:
+            zi_py=zi_py+'  '+other_typing
+            #print("Is typing:", other_typing)
+            #debug_text="Is typing:"+ other_typing
+            #debug_file.write(debug_text.encode('utf-8'))
+        else:
+            offset=offset-1
+            #print("Is senen:", other_typing)
+            #debug_text=word+":"+ other_typing+'\n'
+            #debug_file.write(debug_text.encode('utf-8'))
     else:
         #如果不是其它写法，退回去再看看它是不是字形类别
         offset=offset-1
@@ -326,7 +337,7 @@ def parse_print_tab_jiben(dict_root, homo_no, word,content):
     return True
 
 def parse_print_tab_xiangxi(dict_root, homo_no, word, content):
-    if word=='氍':
+    if word=='籹':
         print(word)
     parsed_word={}
     if not (len(content) and parse_word_xiangxi(word, content, parsed_word)):
@@ -378,6 +389,7 @@ def parse_print_tab_xiangxi(dict_root, homo_no, word, content):
                         make_sub_elem(sense, 'description',{}, _text=example)
                     category.append(html.Element('br'))
     if is_empty:
+        dict_root.remove(entry)
         return False
     make_sub_elem(dict_root,'hr')
     return True
@@ -482,6 +494,8 @@ dict_root.append(html.Element("hr"))
 print(*non_standard_html, sep = "\n")
 word_cnt=0
 for word,content_map in word_conten_map.items():
+    if word=='籹':
+        print(word)
     #对于一个文字
     #分析它的“基本解释”和“详细解释”,即页面上的标签ta
     #“基本解释”
@@ -493,19 +507,19 @@ for word,content_map in word_conten_map.items():
     except KeyError:
         pass
     #“详细解释”
-    #try:
-    #    content_xiangxi=content_map['详细解释']
-    #    if parse_print_tab_xiangxi(dict_root, homo_no, word, content_xiangxi):
-    #        homo_no+=1
-    #except KeyError:
-    #    pass
+    try:
+        content_xiangxi=content_map['详细解释']
+        if parse_print_tab_xiangxi(dict_root, homo_no, word, content_xiangxi):
+            homo_no+=1
+    except KeyError:
+        pass
     #康熙字典
-    #try:
-    #    content_xiangxi=content_map['康熙字典']
-    #    if parse_print_tab_kangxi(dict_root, homo_no, word, content_xiangxi):
-    #        homo_no+=1
-    #except KeyError:
-    #    pass
+    try:
+        content_kangxi=content_map['康熙字典']
+        if parse_print_tab_kangxi(dict_root, homo_no, word, content_kangxi):
+            homo_no+=1
+    except KeyError:
+        pass
     if homo_no>1:
         word_cnt+=1
 print("一共有：",word_cnt,"个字。")
